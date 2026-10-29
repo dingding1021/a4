@@ -19,8 +19,19 @@ h1{text-align:center;margin-bottom:35px;color:#60a5fa}
 </style>
 </head>
 <body>
+<div style="position:fixed;top:0;left:0;width:100%;background:#000;z-index:9999;overflow:hidden;height:48px;display:flex;align-items:center;">
+  <div id="topNoticeScroll" style="white-space:nowrap;font-size:28px;font-weight:bold;color:#ff2222;text-shadow:0 0 6px #ff2222,0 0 12px #ff4444;animation:topMove 15s linear infinite;"></div>
+</div>
+<style>
+@keyframes topMove{0%{transform:translateX(100vw);}100%{transform:translateX(-100%);}}
+</style>
+<script>
+document.getElementById('topNoticeScroll').innerHTML = `<span style="color:#ff0000">📢</span> 所有软件以及网站非站主所有！不可将其作为非法或违纪用途！如有漏洞或BUG，请联系站长！ <span style="color:#0ff">📢</span>`;
+</script>
+
 <div class="container">
-    <h1 style="font-family:'KaiTi','宋体',serif;color:#8FBC8F;text-align:center;">神秘人的应用商城</h1>
+    <h1 style="font-family:'KaiTi','宋体',serif;color:#8FBC8F;text-align:center;">-------------------------------------------</h1>
+<h1 style="font-family:'KaiTi','宋体',serif;color:#8FBC8F;text-align:center;">神秘人的应用商城</h1>
 <div style="font-family:'SimSun','宋体',serif;color:#fff;text-align:center;margin-top:12px;font-size:14px;line-height:1.6;">
 免责声明：<br>
 本站所有资源仅作学习参考使用，软件版权属于原权利人。<br>
@@ -29,7 +40,7 @@ h1{text-align:center;margin-bottom:35px;color:#60a5fa}
     <!-- ② 软件二：图片 pcl.jpg / 安装包 pcl.zip -->
     <div class="card">
         <img src="pcl.jpg" alt="截图">
-          <h2 style="font-family:'FangSong','宋体',serif;font-weight:bold;">PCL旧版</h2>
+          <h2 style="font-family:'Songti','宋体',serif;font-weight:bold;">PCL旧版</h2>
         <p>旧版不受新版本政策影响，照常下载</p>
         <a href="https://raw.githubusercontent.com/dingding1021/a4/1.0/pcl.zip" download="soft2.exe" class="down-btn">立即下载</a>
     </div>
@@ -82,20 +93,20 @@ h1{text-align:center;margin-bottom:35px;color:#60a5fa}
         <a href="https://tv.cctv.com/live/index.shtml?spm=C96370.PPDB2vhvSivD.Ewf8utvfzDsa.1" download="soft10.exe" class="down-btn">立即观看</a>
     </div>
 
-    <!-- ⑪ 软件十一：图片 pic11.png / 安装包 soft11.exe -->
+    <!-- ⑪ 软件十一：图片 5.PNG / 安装包 soft11.exe -->
     <div class="card">
-        <img src="abc.jpg" alt="截图">
-        <h2>暂无资源</h2>
-        <p>无</p>
-        <a href="soft11.exe" download="soft11.exe" class="down-btn">暂无资源</a>
+        <img src="5.PNG" alt="截图">
+        <h2 style="font-family:'SongTi','宋体',serif;font-weight:bold;">临时邮箱</h2>
+        <p style="font-family:'KaiTi','宋体',serif;font-weight:bold;">可以解决一部分需要登陆的问题</p>
+        <a href="https://moakt.com/zh/" download="soft11.exe" class="down-btn">立即使用</a>
     </div>
 
-    <!-- ⑫ 软件十二：图片 pic12.png / 安装包 soft12.exe -->
+    <!-- ⑫ 软件十二：图片 6.PNG / 安装包 soft12.exe -->
     <div class="card">
-        <img src="abc.jpg" alt="截图">
-        <h2>暂无资源</h2>
-        <p>无</p>
-        <a href="soft12.exe" download="soft12.exe" class="down-btn">暂无资源</a>
+        <img src="6.PNG" alt="截图">
+          <h2 style="font-family:'SongTi','宋体',serif;font-weight:bold;">Github加速器</h2>
+           <p style="font-family:'KaiTi','宋体',serif;font-weight:bold;">可以解决不能打开Github的问题</p>
+        <a href="https://wwn.lanzouy.com/b01v4iz1g" download="soft12.exe" class="down-btn">立即下载（提取码：1234）</a>
     </div>
 
     <!-- ⑬ 软件十三：图片 pic13.png / 安装包 soft13.exe -->
