@@ -20,13 +20,13 @@ h1{text-align:center;margin-bottom:35px;color:#60a5fa}
 </head>
 <body>
 <div style="position:fixed;top:0;left:0;width:100%;background:#000;z-index:9999;overflow:hidden;height:48px;display:flex;align-items:center;">
-  <div id="topNoticeScroll" style="white-space:nowrap;font-size:28px;font-weight:bold;color:#ff2222;text-shadow:0 0 6px #ff2222,0 0 12px #ff4444;animation:topMove 15s linear infinite;"></div>
+  <div id="topNoticeScroll" style="white-space:nowrap;font-size:28px;font-weight:bold;color:#ff2222;text-shadow:0 0 6px #ff2222,0 0 12px #ff4444;animation:topMove 25s linear infinite;"></div>
 </div>
 <style>
 @keyframes topMove{0%{transform:translateX(100vw);}100%{transform:translateX(-100%);}}
 </style>
 <script>
-document.getElementById('topNoticeScroll').innerHTML = `<span style="color:#ff0000">📢</span> 临时邮箱重磅更新！GitHub加速器已加入！所有软件以及网站非站主所有！不可将其作为非法或违纪用途！如有漏洞或BUG，请联系站长！ <span style="color:#0ff">📢</span>`;
+document.getElementById('topNoticeScroll').innerHTML = `<span style="color:#ff0000">📢</span> 请不要将登录序列号泄露！否则将会关闭网页进行整改。所有软件以及网站非站主所有！不可将其作为非法或违纪用途！如有漏洞或BUG，请联系站长！ <span style="color:#0ff">📢</span>`;
 </script>
 
 <div class="container">
@@ -278,4 +278,205 @@ document.getElementById('topNoticeScroll').innerHTML = `<span style="color:#ff00
     </div>
 </div>
 </body>
+<!-- ===== 立体密码验证弹窗 开始 ===== -->
+<style>
+#lockModal{
+    position:fixed;inset:0;z-index:99999;
+    display:flex;align-items:center;justify-content:center;
+    background:
+        radial-gradient(circle at 30% 20%, rgba(56,189,248,.35), transparent 26%),
+        radial-gradient(circle at 80% 70%, rgba(129,140,248,.35), transparent 28%),
+        linear-gradient(135deg,#0f172a,#1e293b);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+}
+#lockModal.hidden{display:none}
+
+#lockModal .lm-scene{
+    perspective:1400px;
+}
+#lockModal .lm-card{
+    width:360px;max-width:88vw;
+    background:
+        linear-gradient(145deg,#f8fafc 0%,#e2e8f0 45%,#cbd5e1 100%);
+    border-radius:24px;padding:40px 34px 32px;
+    position:relative;overflow:hidden;
+    transform-style:preserve-3d;
+    transform:rotateX(4deg) translateY(-6px);
+    box-shadow:
+        0 40px 80px rgba(0,0,0,.55),
+        0 20px 40px rgba(15,23,42,.45),
+        inset 0 1px 0 rgba(255,255,255,.9),
+        inset 0 -6px 12px rgba(15,23,42,.18);
+    animation:lmFloat 5s ease-in-out infinite;
+}
+@keyframes lmFloat{
+    0%,100%{transform:rotateX(4deg) translateY(-6px)}
+    50%{transform:rotateX(4deg) translateY(-12px)}
+}
+
+#lockModal .lm-card::before{
+    content:"";position:absolute;inset:8px;border-radius:20px;
+    border:1px solid rgba(255,255,255,.6);
+    pointer-events:none;
+}
+#lockModal .lm-topbar{
+    position:absolute;top:0;left:0;right:0;height:5px;
+    background:linear-gradient(90deg,#38bdf8,#6366f1,#a855f7,#ec4899);
+    box-shadow:0 0 18px rgba(99,102,241,.55);
+}
+#lockModal .lm-topbar::after{
+    content:"";position:absolute;top:5px;left:0;right:0;height:1px;
+    background:rgba(255,255,255,.6);
+}
+
+#lockModal .lm-icon{
+    width:74px;height:74px;margin:0 auto 18px;border-radius:50%;
+    background:
+        linear-gradient(145deg,#60a5fa,#4f46e5 55%,#3730a3);
+    display:flex;align-items:center;justify-content:center;
+    transform:translateZ(20px);
+    box-shadow:
+        0 14px 30px rgba(79,70,229,.55),
+        inset 0 1px 0 rgba(255,255,255,.8),
+        inset 0 -6px 10px rgba(30,27,75,.35);
+}
+#lockModal .lm-icon svg{
+    width:34px;height:34px;stroke:#fff;
+    filter:drop-shadow(0 2px 4px rgba(0,0,0,.4));
+}
+
+#lockModal .lm-title{
+    font-size:21px;font-weight:800;color:#0f172a;margin:0 0 6px;
+    letter-spacing:.5px;
+    text-shadow:0 1px 0 rgba(255,255,255,.9),0 2px 4px rgba(15,23,42,.25);
+}
+#lockModal .lm-sub{font-size:13px;color:#475569;margin:0 0 24px}
+
+#lockModal .lm-field{position:relative;margin-bottom:14px;transform:translateZ(12px)}
+#lockModal .lm-field svg{
+    position:absolute;left:14px;top:50%;transform:translateY(-50%);
+    width:18px;height:18px;stroke:#4f46e5;
+    filter:drop-shadow(0 1px 1px rgba(255,255,255,.8));
+}
+#lockModal #lmPwd{
+    width:100%;box-sizing:border-box;
+    padding:14px 14px 14px 44px;font-size:15px;
+    border:none;border-radius:14px;outline:none;color:#0f172a;
+    background:
+        linear-gradient(145deg,#ffffff,#eef2ff);
+    box-shadow:
+        inset 0 2px 4px rgba(15,23,42,.18),
+        inset 0 -1px 0 rgba(255,255,255,.9),
+        0 1px 2px rgba(15,23,42,.12);
+    transition:box-shadow .2s, transform .2s;
+}
+#lockModal #lmPwd:focus{
+    box-shadow:
+        inset 0 2px 4px rgba(15,23,42,.18),
+        0 0 0 3px rgba(99,102,241,.25),
+        0 0 18px rgba(99,102,241,.35);
+}
+
+#lockModal .lm-err{
+    font-size:13px;color:#b91c1c;min-height:20px;margin:2px 0 12px;
+    text-shadow:0 1px 0 rgba(255,255,255,.8);
+}
+#lockModal .lm-err.shake{animation:lmShake .36s}
+@keyframes lmShake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-7px)}
+    50%{transform:translateX(7px)}
+    75%{transform:translateX(-4px)}
+}
+
+#lockModal .lm-btn{
+    width:100%;padding:14px;border:none;border-radius:14px;
+    font-size:15px;font-weight:700;color:#fff;cursor:pointer;
+    letter-spacing:2px;
+    background:linear-gradient(145deg,#6366f1,#4f46e5 55%,#3730a3);
+    transform:translateZ(16px);
+    box-shadow:
+        0 14px 28px rgba(79,70,229,.55),
+        inset 0 1px 0 rgba(255,255,255,.6),
+        inset 0 -5px 10px rgba(30,27,75,.35),
+        0 2px 4px rgba(0,0,0,.25);
+    transition:transform .15s, box-shadow .15s, filter .2s;
+}
+#lockModal .lm-btn:hover{filter:brightness(1.08)}
+#lockModal .lm-btn:active{transform:translateZ(8px) scale(.98)}
+
+#lockModal .lm-foot{
+    margin-top:18px;font-size:12px;color:#334155;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+}
+#lockModal .lm-foot .lm-dot{
+    width:6px;height:6px;border-radius:50%;background:#10b981;
+    box-shadow:0 0 10px #10b981;
+}
+</style>
+
+<div id="lockModal">
+    <div class="lm-scene">
+        <div class="lm-card">
+            <div class="lm-topbar"></div>
+            <div class="lm-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="4" y="11" width="16" height="10" rx="2"/>
+                    <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+                </svg>
+            </div>
+            <p class="lm-title">安全密钥验证</p>
+            <p class="lm-sub">请输入访问安全序列号访问：</p>
+            <div class="lm-field">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
+                </svg>
+                <input type="password" id="lmPwd" placeholder="请输入安全序列号" autocomplete="off">
+            </div>
+             <p style="font-family:SimSun,宋体,serif;text-align:center;font-size:14px;color:#111111;margin:6px 0 10px;"
+>
+因安全策略影响，加入密码；
+保护数据，使用即删，不二次传播数据；
+此网站暂时仅开放于作者信任者，请不要传播序列号信息
+        </p>
+            <div class="lm-err" id="lmErr"></div>
+            <button class="lm-btn" id="lmBtn">验 证 安 全 密 钥</button>
+            <p class="lm-foot"><span class="lm-dot"></span>神秘人的应用商城</p>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(){
+    var RIGHT_PWD = "2513666";
+    var modal = document.getElementById("lockModal");
+    var pwd   = document.getElementById("lmPwd");
+    var btn   = document.getElementById("lmBtn");
+    var err   = document.getElementById("lmErr");
+
+    function verify(){
+        if(pwd.value.trim() === RIGHT_PWD){
+            modal.classList.add("hidden");
+            pwd.value = "";
+            err.textContent = "";
+        }else{
+            err.textContent = "序列号错误，请联系站主处理！";
+            pwd.value = "";
+            pwd.focus();
+            err.classList.remove("shake");
+            void err.offsetWidth;
+            err.classList.add("shake");
+        }
+    }
+    btn.addEventListener("click", verify);
+    pwd.addEventListener("keydown", function(e){
+        if(e.key === "Enter") verify();
+    });
+    window.addEventListener("load", function(){ pwd.focus(); });
+})();
+</script>
+<!-- ===== 立体密码验证弹窗 结束 ===== -->
+
 </html>
