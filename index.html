@@ -28,6 +28,24 @@ h1{text-align:center;margin-bottom:35px;color:#60a5fa}
 <script>
 document.getElementById('topNoticeScroll').innerHTML = `<span style="color:#ff0000">📢</span> 请不要将登录序列号泄露！否则将会关闭网页进行整改。所有软件以及网站非站主所有！不可将其作为非法或违纪用途！如有漏洞或BUG，请联系站长！ <span style="color:#0ff">📢</span>`;
 </script>
+<script>
+/* ===== 防止直接查看源码：拦截右键与快捷键 ===== */
+(function(){
+    document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+    document.onkeydown = function(e){
+        e = e || window.event;
+        var k = e.keyCode || e.which;
+        if(k === 123){ e.preventDefault(); return false; }                                    // F12
+        if(e.ctrlKey && e.shiftKey){
+            if([73,74,67,75,69].indexOf(k) >= 0){ e.preventDefault(); return false; }         // Ctrl+Shift+I/J/C/K/E
+        }
+        if(e.ctrlKey){
+            if([85,83,80].indexOf(k) >= 0){ e.preventDefault(); return false; }               // Ctrl+U/S/P
+        }
+        if(e.metaKey && (k === 85 || k === 83)){ e.preventDefault(); return false; }          // Mac 端
+    };
+})();
+</script>
 
 <div class="container">
     <h1 style="font-family:'KaiTi','宋体',serif;color:#8FBC8F;text-align:center;">-------------------------------------------</h1>
@@ -450,7 +468,8 @@ document.getElementById('topNoticeScroll').innerHTML = `<span style="color:#ff00
 
 <script>
 (function(){
-    var RIGHT_PWD = "2513666";
+    var _pw = [104,111,107,105,108,108,108];
+    var RIGHT_PWD = _pw.map(function(c){return String.fromCharCode(c ^ 0x5A);}).join("");
     var modal = document.getElementById("lockModal");
     var pwd   = document.getElementById("lmPwd");
     var btn   = document.getElementById("lmBtn");
